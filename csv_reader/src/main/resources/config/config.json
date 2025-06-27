@@ -1,0 +1,7 @@
+{
+  "mapping":[
+    {"sourceField": "firstname", "destinationField": "firstName"},
+    {"sourceField": "lastname", "destinationField": "lastName"},
+    {"sourceField": "mobile", "destinationField": "mobileNo"}
+  ]
+}
