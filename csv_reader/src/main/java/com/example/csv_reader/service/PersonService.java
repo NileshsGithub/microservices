@@ -11,11 +11,11 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
 import com.opencsv.exceptions.CsvValidationException;
-import jakarta.transaction.Transactional;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 
 
 
@@ -181,4 +181,31 @@ public class PersonService {
         return personRepository.findById(id)
                 .orElseThrow(null);
     }
+
+
+    public Person createPerson(Person person) {
+        return personRepository.save(person);
+    }
+
+    public Person updatePerson(Integer id, Person personDetails) {
+        Person existing = personRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Person not found with id " + id));
+        existing.setFirstName(personDetails.getFirstName());
+        existing.setLastName(personDetails.getLastName());
+        existing.setMobileNo(personDetails.getMobileNo());
+        existing.setEmail(personDetails.getEmail());
+        existing.setGender(personDetails.getGender());
+        existing.setIpAddress(personDetails.getIpAddress());
+        existing.setAddress(personDetails.getAddress());
+        // add other field updates here
+        return personRepository.save(existing);
+    }
+
+    public void deletePerson(Integer id) {
+        Person existing = personRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Person not found with id " + id));
+        personRepository.delete(existing);
+    }
+
+
 }

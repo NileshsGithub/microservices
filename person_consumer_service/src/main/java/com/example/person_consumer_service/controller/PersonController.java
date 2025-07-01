@@ -2,10 +2,10 @@ package com.example.person_consumer_service.controller;
 
 import com.example.person_consumer_service.entity.Person;
 import com.example.person_consumer_service.service.PersonService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,13 +19,34 @@ public class PersonController {
         this.personService = personService;
     }
 
-    @GetMapping("/persons")
+    @GetMapping
     public List<Person> getAllPersons(){
         return personService.getAllPersons();
     }
 
-    @GetMapping("/persons/{id}")
-    public Person getPerson(@PathVariable Integer id){
+    @GetMapping(value = "/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
+    public Person getPersonById(@PathVariable Integer id){
         return personService.getPersonById(id);
     }
+
+    @PostMapping
+    public ResponseEntity<Person> createPerson(@RequestBody Person person) {
+        Person created = personService.createPerson(person);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Person> updatePerson(
+            @PathVariable Integer id,
+            @RequestBody Person personDetails) {
+        Person updated = personService.updatePerson(id, personDetails);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePerson(@PathVariable Integer id) {
+        personService.deletePerson(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

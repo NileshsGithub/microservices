@@ -5,6 +5,7 @@
     import com.opencsv.exceptions.CsvValidationException;
     import jakarta.annotation.Resource;
     import org.springframework.core.io.ClassPathResource;
+    import org.springframework.http.HttpStatus;
     import org.springframework.http.ResponseEntity;
     import org.springframework.web.bind.annotation.*;
     import org.springframework.web.multipart.MultipartFile;
@@ -42,6 +43,7 @@
             return ResponseEntity.ok("Loaded" + count + "persons using mapped fields");
         }
 
+
         @GetMapping
         public List<Person> getAllPersons(){
             return personService.getAllPersons();
@@ -50,6 +52,28 @@
         @GetMapping("/{id}")
         public Person get(@PathVariable Integer id) {
             return personService.getPersonById(id);
+        }
+
+
+        @PostMapping
+        public ResponseEntity<Person> createPerson(@RequestBody Person person) {
+            Person saved = personService.createPerson(person);
+            return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+        }
+
+        @PutMapping("/{id}")
+        public ResponseEntity<Person> updatePerson(
+                @PathVariable Integer id,
+                @RequestBody Person personDetails) {
+            Person updated = personService.updatePerson(id, personDetails);
+            return ResponseEntity.ok(updated);
+        }
+
+
+        @DeleteMapping("/{id}")
+        public ResponseEntity<Void> deletePerson(@PathVariable Integer id) {
+            personService.deletePerson(id);
+            return ResponseEntity.noContent().build();
         }
 
     }
