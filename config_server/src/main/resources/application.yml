@@ -1,0 +1,26 @@
+server:
+  port: 7777
+  error:
+    whitelabel:
+      enabled: false
+spring:
+  application:
+    name: ConfigServer
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/local
+      default-label: dev
+  profiles:
+    active: native
+#  security:
+#    user:
+#      name: config-user
+#      password: 12345678
+#  cloud:
+#    config:
+#      server:
+#        git:
+#          uri: https://github.com/NileshsGithub/microservice-config
+
