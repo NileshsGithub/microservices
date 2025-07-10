@@ -1,6 +1,6 @@
 spring:
   application:
-    name: person_consumer_service
+    name: person-consumer-service
   cloud:
     config:
       name: person_consumer_service
@@ -10,13 +10,13 @@ spring:
     import: optional:configserver:http://127.0.0.1:7777
   profiles:
     active: dev
-  eureka:
+eureka:
     instance:
       prefer-ip-address: true
     client:
       fetch-registry: true
       register-with-eureka: true
       service-url:
-      defaultZone: http://localhost:8761/eureka
+       defaultZone: http://localhost:8761/eureka
 server:
   port: 8084

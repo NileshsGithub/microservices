@@ -2,7 +2,7 @@ server:
   port: 8082
 spring:
   application:
-    name: csv_reader
+    name: csv-reader
   cloud:
     config:
       name: csv_reader
@@ -11,11 +11,11 @@ spring:
     import: optional:configserver:http://127.0.0.1:7777
   profiles:
     active: dev
-  eureka:
+eureka:
     instance:
       prefer-ip-address: true
     client:
       fetch-registry: true
       register-with-eureka: true
       service-url:
-      defaultZone: http://localhost:8761/eureka
+       defaultZone: http://localhost:8761/eureka

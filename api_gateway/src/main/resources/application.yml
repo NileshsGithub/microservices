@@ -2,16 +2,19 @@ server:
   port: 8085
 spring:
   application:
-    name: api_gateway
+    name: api-gateway
   cloud:
     gateway:
-        routes:
-          - id: csv_reader
-            uri: http://localhost:8082
-            predicates:
-              - Path=/api/person/**
-
-          - id: person_consumer_service
-            uri: http://localhost:8084
-            predicates:
-              - Path=/api/persons/**
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: csv-reader
+          uri: lb://csv-reader
+          predicates:
+            - Path=/api/person/**
+        - id: person_consumer_service
+          uri: lb://person-consumer-service
+          predicates:
+            - Path=/api/persons/**
